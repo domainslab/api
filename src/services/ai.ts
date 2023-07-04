@@ -7,42 +7,35 @@ const openai = new OpenAIApi(new Configuration({
   apiKey: process.env.OPEN_AI_API_KEY,
 }))
 
-const TLDS = ['.com', '.ai', '.io']
+const DEFAULT_TOP_LEVEL_DOMAINS = ['.com', '.ai', '.io']
 
-type StringMap = { [key: string]: string }
 type CompletionResponse = {
-  data: {
-    choices: Array<{ message: { content: string } }>
-  }
+    data: {
+      choices: Array<{ message: { content: string } }>
+    }
 }
 
-const PROMPTS: StringMap = fs.readdirSync('src/prompts').reduce((acc, file) => {
+const PROMPTS: Record<string, string> = fs.readdirSync('src/prompts').reduce((acc, file) => {
   const filePath = path.join('src/prompts', file)
   acc[file] = fs.readFileSync(filePath, 'utf-8')
 
   return acc
-}, {} as StringMap)
+}, {} as Record<string, string>)
 
-const chat = async (message: string) => {
-  return openai.createChatCompletion({
+
+const chat = async (message: string): Promise<any> => {
+  const res = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [{role: "user", content: message}],
-  }).then((completion: CompletionResponse) => {
-    return completion.data.choices[0].message.content
-  }).catch((error: any) => {
-    if (error.response) {
-      console.log(error.response.status)
-      console.log(error.response.data)
-    } else {
-      console.log(error.message)
-    }
   })
+
+  return res.data.choices[0].message.content
 }
 
 export const getDomains = async ({
   desc,
   prompt = 'default',
-  tlds = TLDS,
+  tlds = DEFAULT_TOP_LEVEL_DOMAINS,
   pageSize = 10,
 }: {
   desc: string,

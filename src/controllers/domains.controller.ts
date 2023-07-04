@@ -1,11 +1,12 @@
-import { Router, Request, Response } from 'express'
+import { Router } from 'express'
 
 import { getDomains, isDomainAvailable } from '../services'
+import type { TypedRequest, Response } from './types'
 
 const domainRouter = Router()
 
 // api/v1/domains?desc="{App description}"
-domainRouter.get('/domains', async (req: Request, res: Response) => {
+domainRouter.get('/domains', async (req: TypedRequest<{ desc: string }, {}>, res: Response) => {
   const desc = req.query.desc as string | undefined
 
   if (!desc) { return res.status(400).json({ error: 'Query param `desc` is required' }) }
@@ -16,8 +17,8 @@ domainRouter.get('/domains', async (req: Request, res: Response) => {
 })
 
 // api/v1/domain_status?domain="{domain}"
-domainRouter.get('/domain_status', async (req: Request, res: Response) => {
-  const domain = req.query.domain as string | undefined
+domainRouter.get('/domain_status', async (req: TypedRequest<{ domain: string }, {}>, res: Response) => {
+  const domain = req.query.domain
   
   if (!domain) { return res.status(400).send({ error: 'Query param `domain` is required' }) }
 
