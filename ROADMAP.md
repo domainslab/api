@@ -3,6 +3,10 @@
 - [ ] Add rate-limit for `/api/v1/domains`
 - [ ] Keep track of requests to be aware of load and OpenAI limits
 - [ ] Extend `/api/v1/domains` with `pageSize` and `tlds` parameters
+- [ ] Research other LLMs
+  - [ ] Support multiple LLMs at once
+  - [ ] AB-test different models
+  - [ ] Track clicks/engagement per LLM and identify the best performing one
 
 ## Tech Debt
 
