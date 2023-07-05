@@ -1,14 +1,19 @@
 import { Router } from 'express';
 
 import { getDomains, isDomainAvailable } from '../services';
-import type { TypedRequest, Response } from './types';
+import type {
+  GetDomainStatusRequest,
+  GetDomainStatusResponse,
+  GetDomainsRequest,
+  GetDomainsResponse,
+} from './types';
 
 const domainRouter = Router();
 
 // api/v1/domains?desc="{App description}"
 domainRouter.get(
   '/domains',
-  async (req: TypedRequest<{ desc: string }, never>, res: Response) => {
+  async (req: GetDomainsRequest, res: GetDomainsResponse) => {
     const desc = req.query.desc as string | undefined;
 
     if (!desc) {
@@ -24,7 +29,7 @@ domainRouter.get(
 // api/v1/domain_status?domain="{domain}"
 domainRouter.get(
   '/domain_status',
-  async (req: TypedRequest<{ domain: string }, never>, res: Response) => {
+  async (req: GetDomainStatusRequest, res: GetDomainStatusResponse) => {
     const domain = req.query.domain;
 
     if (!domain) {

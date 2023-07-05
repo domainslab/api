@@ -5,9 +5,30 @@ interface TypedRequest<T extends Query, U> extends Request {
   body: U;
   query: T;
 }
-
-interface TypedResponse<ResBody> extends Express.Response {
+interface TypedResponse<ResBody> extends Response {
   json: Send<ResBody, this>;
 }
 
-export { TypedRequest, Request, TypedResponse, Response };
+export type GetDomainsRequest = TypedRequest<
+  {
+    desc: string;
+  },
+  never
+>;
+
+export type GetDomainsResponse = TypedResponse<{
+  domains?: string[];
+  error?: string;
+}>;
+
+export type GetDomainStatusRequest = TypedRequest<
+  {
+    domain: string;
+  },
+  never
+>;
+
+export type GetDomainStatusResponse = TypedResponse<{
+  isAvailable?: boolean;
+  error?: string;
+}>;
