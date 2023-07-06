@@ -4,6 +4,7 @@
 - [ ] Keep track of requests to be aware of load and OpenAI limits
 - [ ] Extend `/api/v1/domains` with `pageSize` and `tlds` parameters
 - [ ] Extend `/api/v1/domain_status` with an ability to estimate the price
+- [ ] Improve `errorHandler.ts` to catch 404 Route Not Found
 - [ ] Research other LLMs
   - [ ] Support multiple LLMs at once
   - [ ] AB-test different models
