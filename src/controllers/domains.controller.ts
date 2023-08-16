@@ -14,13 +14,14 @@ const domainRouter = Router();
 domainRouter.get(
   '/domains',
   async (req: GetDomainsRequest, res: GetDomainsResponse) => {
-    const desc = req.query.desc as string | undefined;
-
-    if (!desc) {
+    if (!req.query.desc) {
       return res.status(400).json({ error: 'Query param `desc` is required' });
     }
 
-    const domains = await getDomains({ desc });
+    const domains = await getDomains({
+      desc: req.query.desc,
+      tlds: req.query.tlds,
+    });
 
     res.json({ domains });
   }

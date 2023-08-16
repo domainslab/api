@@ -12,6 +12,7 @@ interface TypedResponse<ResBody> extends Response {
 export type GetDomainsRequest = TypedRequest<
   {
     desc: string;
+    tlds?: string[];
   },
   never
 >;
