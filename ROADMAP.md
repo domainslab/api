@@ -1,5 +1,6 @@
 # ROADMAP
 
+- [ ] Allow production and dev domains in cors configuration
 - [ ] Add rate-limit for `/api/v1/domains`
 - [ ] Keep track of requests to be aware of load and OpenAI limits
 - [x] Extend `/api/v1/domains` with `tlds` parameter
@@ -17,4 +18,4 @@
 - [x] Add eslint, prettier or any other code formatters for better code-style
 - [ ] Add husky/pre-commit
 - [ ] Spec endpoints
-- [ ] Add CI/CD
+- [x] Add CI/CD
