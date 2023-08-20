@@ -1,6 +1,7 @@
 # ROADMAP
 
-- [ ] Allow production and dev domains in cors configuration
+- [x] Add authentication middleware
+- [ ] Allow any requests when running locally
 - [ ] Add rate-limit for `/api/v1/domains`
 - [ ] Keep track of requests to be aware of load and OpenAI limits
 - [x] Extend `/api/v1/domains` with `tlds` parameter

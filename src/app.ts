@@ -1,17 +1,14 @@
 import express from 'express';
-import { router as domainRouter } from './controllers';
+import { router } from './controllers';
 import { errorHandler } from './middlewares/errorHandler';
 import cors from 'cors';
+import { authenticateRequestMiddleware } from './middlewares/authenticateRequest';
 
 const app = express();
 
-app.use(
-  cors({
-    origin: ['https://domainslab.ai'],
-  })
-);
+app.use(cors());
 app.use(express.json());
-app.use(domainRouter);
+app.use(authenticateRequestMiddleware, router);
 app.use(errorHandler);
 
 export default app;
