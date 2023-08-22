@@ -1,12 +1,18 @@
 import { NextFunction, Request } from 'express';
 import { Response } from 'express-serve-static-core';
 import { decrypt } from '../utils/cipher';
+import { isDev } from '../utils/isDev';
 
 export const authenticateRequestMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  // Skip auth when running server only
+  if (isDev()) {
+    return next();
+  }
+
   const now = new Date().getTime();
 
   const publicKey = req.header('X-DomainsLab-Auth');

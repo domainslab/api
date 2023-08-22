@@ -20,3 +20,4 @@
 - [ ] Add husky/pre-commit
 - [ ] Spec endpoints
 - [x] Add CI/CD
+- [ ] Migrate to PM2 for production env (use nodemon just for dev)
