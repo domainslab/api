@@ -10,7 +10,7 @@ import type {
 
 const domainRouter = Router();
 
-// api/v1/domains?desc="{App description}"
+// /v1/domains?desc="{App description}"
 domainRouter.get(
   '/domains',
   async (req: GetDomainsRequest, res: GetDomainsResponse) => {
@@ -27,7 +27,7 @@ domainRouter.get(
   }
 );
 
-// api/v1/domain_status?domain="{domain}"
+// /v1/domain_status?domain="{domain}"
 domainRouter.get(
   '/domain_status',
   async (req: GetDomainStatusRequest, res: GetDomainStatusResponse) => {

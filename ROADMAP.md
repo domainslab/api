@@ -2,11 +2,11 @@
 
 - [x] Add authentication middleware
 - [ ] Allow any requests when running locally
-- [ ] Add rate-limit for `/api/v1/domains`
+- [ ] Add rate-limit for `/v1/domains`
 - [ ] Keep track of requests to be aware of load and OpenAI limits
-- [x] Extend `/api/v1/domains` with `tlds` parameter
-- [ ] Extend `/api/v1/domains` with `pageSize` parameter
-- [ ] Extend `/api/v1/domain_status` with an ability to estimate the price
+- [x] Extend `/v1/domains` with `tlds` parameter
+- [ ] Extend `/v1/domains` with `pageSize` parameter
+- [ ] Extend `/v1/domain_status` with an ability to estimate the price
 - [ ] Improve `errorHandler.ts` to catch 404 Route Not Found
 - [ ] Validate generated domains, return BAD REQUEST if we couldn't generate
 - [ ] Research other LLMs
