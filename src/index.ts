@@ -1,6 +1,11 @@
 require('dotenv').config();
 
 import app from './app';
+import { isProd } from './utils/env';
+
+if (isProd()) {
+  require('newrelic');
+}
 
 const PORT = process.env.PORT || 3000;
 

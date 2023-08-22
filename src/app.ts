@@ -1,7 +1,8 @@
 import express from 'express';
+import cors from 'cors';
+
 import { router } from './controllers';
 import { errorHandler } from './middlewares/errorHandler';
-import cors from 'cors';
 import { authenticateRequestMiddleware } from './middlewares/authenticateRequest';
 
 const app = express();

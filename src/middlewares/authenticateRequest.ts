@@ -1,7 +1,7 @@
 import { NextFunction, Request } from 'express';
 import { Response } from 'express-serve-static-core';
 import { decrypt } from '../utils/cipher';
-import { isDev } from '../utils/isDev';
+import { isDev } from '../utils/env';
 
 export const authenticateRequestMiddleware = (
   req: Request,
