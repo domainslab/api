@@ -9,10 +9,16 @@
 - [ ] Extend `/v1/domain_status` with an ability to estimate the price
 - [ ] Improve `errorHandler.ts` to catch 404 Route Not Found
 - [ ] Validate generated domains, return BAD REQUEST if we couldn't generate
+- [ ] Gain access to GPT-4
+- [ ] Log generate search terms to NewRelic
+  - [ ] Identify similiar search terms and build dashboard
 - [ ] Research other LLMs
   - [ ] Support multiple LLMs at once
   - [ ] AB-test different models
   - [ ] Track clicks/engagement per LLM and identify the best performing one
+- [ ] Research if GPT learns based on the same prompt
+  - [ ] Build prompt rotation
+  - [ ] Provide GPT with user feedbacks based on chosen domain
 
 ## Tech Debt
 
