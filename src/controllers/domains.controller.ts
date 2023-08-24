@@ -1,4 +1,5 @@
-import { Router } from 'express';
+import { NextFunction, Router } from 'express';
+import createHttpError from 'http-errors';
 
 import { getDomains, isDomainAvailable } from '../services';
 import type {
@@ -13,9 +14,13 @@ const domainRouter = Router();
 // /v1/domains?desc="{App description}"
 domainRouter.get(
   '/domains',
-  async (req: GetDomainsRequest, res: GetDomainsResponse) => {
+  async (
+    req: GetDomainsRequest,
+    res: GetDomainsResponse,
+    next: NextFunction
+  ) => {
     if (!req.query.desc) {
-      return res.status(400).json({ error: 'Query param `desc` is required' });
+      return next(createHttpError(400,  'Query param `desc` is required'));
     }
 
     const domains = await getDomains({
