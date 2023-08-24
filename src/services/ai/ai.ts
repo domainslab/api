@@ -2,6 +2,7 @@ import { Configuration, OpenAIApi } from 'openai';
 
 import { MODEL, DEFAULT_TOP_LEVEL_DOMAINS, PROMPTS } from './consts';
 import { isDomainInvalid } from './utils';
+import AiError from './AiError';
 
 const openai = new OpenAIApi(
   new Configuration({
@@ -37,7 +38,7 @@ export const getDomains = async ({
   const response = await chat(message);
 
   if (!response) {
-    throw new Error('Prompt error');
+    throw new AiError('Prompt is invalid');
   }
 
   const domains = response.split('\n').map(domain => {
@@ -45,7 +46,7 @@ export const getDomains = async ({
   });
 
   if (domains.some(isDomainInvalid)) {
-    throw new Error('Prompt error');
+    throw new AiError('Prompt is invalid');
   }
 
   return domains;

@@ -8,6 +8,7 @@ import type {
   GetDomainsRequest,
   GetDomainsResponse,
 } from './types';
+import AiError from '../services/ai/AiError';
 
 const domainRouter = Router();
 
@@ -20,13 +21,20 @@ domainRouter.get(
     next: NextFunction
   ) => {
     if (!req.query.desc) {
-      return next(createHttpError(400,  'Query param `desc` is required'));
+      return next(createHttpError(400, 'Query param `desc` is required'));
     }
 
-    const domains = await getDomains({
-      desc: req.query.desc,
-      tlds: req.query.tlds,
-    });
+    let domains;
+    try {
+      domains = await getDomains({
+        desc: req.query.desc,
+        tlds: req.query.tlds,
+      });
+    } catch (err) {
+      if (err instanceof AiError) {
+        return next(createHttpError(400, err.message));
+      }
+    }
 
     res.json({ domains });
   }
