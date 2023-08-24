@@ -1,0 +1,52 @@
+import { Configuration, OpenAIApi } from 'openai';
+
+import { MODEL, DEFAULT_TOP_LEVEL_DOMAINS, PROMPTS } from './consts';
+import { isDomainInvalid } from './utils';
+
+const openai = new OpenAIApi(
+  new Configuration({
+    apiKey: process.env.OPEN_AI_API_KEY,
+  })
+);
+
+const chat = async (message: string): Promise<string | undefined> => {
+  const res = await openai.createChatCompletion({
+    model: MODEL,
+    messages: [{ role: 'user', content: message }],
+  });
+
+  return res.data.choices[0].message?.content;
+};
+
+export const getDomains = async ({
+  desc,
+  prompt = 'default',
+  tlds = DEFAULT_TOP_LEVEL_DOMAINS,
+  pageSize = 10,
+}: {
+  desc: string;
+  prompt?: keyof typeof PROMPTS;
+  tlds?: string[];
+  pageSize?: number;
+}): Promise<string[]> => {
+  const message = PROMPTS[prompt]
+    .replace('{desc}', desc)
+    .replace('{tlds}', tlds.join(', '))
+    .replace('{pageSize}', String(pageSize));
+
+  const response = await chat(message);
+
+  if (!response) {
+    throw new Error('Prompt error');
+  }
+
+  const domains = response.split('\n').map(domain => {
+    return domain.split('. ')[1];
+  });
+
+  if (domains.some(isDomainInvalid)) {
+    throw new Error('Prompt error');
+  }
+
+  return domains;
+};
