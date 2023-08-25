@@ -28,7 +28,7 @@ domainRouter.get(
     try {
       domains = await getDomains({
         desc: req.query.desc,
-        tlds: req.query.tlds,
+        tlds: req.query.tlds?.split(','),
       });
     } catch (err) {
       if (err instanceof AiError) {
