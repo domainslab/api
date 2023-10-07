@@ -43,13 +43,15 @@ domainRouter.get(
 // /v1/domain_status?domain="{domain}"
 domainRouter.get(
   '/domain_status',
-  async (req: GetDomainStatusRequest, res: GetDomainStatusResponse) => {
+  async (
+    req: GetDomainStatusRequest,
+    res: GetDomainStatusResponse,
+    next,
+  ) => {
     const domain = req.query.domain;
 
     if (!domain) {
-      return res
-        .status(400)
-        .send({ error: 'Query param `domain` is required' });
+      return next(createHttpError(400, 'Query param `domain` is required'));
     }
 
     const isAvailable = await isDomainAvailable(domain);
