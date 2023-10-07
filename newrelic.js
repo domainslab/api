@@ -8,7 +8,7 @@ exports.config = {
   allow_all_headers: true,
   application_logging: {
     forwarding: {
-      enabled: true,
+      enabled: false,
       max_samples_stored: 100,
     }
   },
