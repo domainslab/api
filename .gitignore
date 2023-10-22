@@ -5,3 +5,4 @@ build/Release
 
 node_modules
 jspm_packages
+newrelic_agent.log

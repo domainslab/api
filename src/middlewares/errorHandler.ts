@@ -1,16 +1,40 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
+import { isHttpError, HttpError } from 'http-errors';
+import HttpStatusCode from '../types/HttpStatusCode';
 
-interface ApiError extends Error {
-  status?: number;
-}
+const DEFAULT_STATUS_CODE = 500;
+const DEFAULT_MESSAGE = 'Api error';
 
-export const errorHandler = (
-  error: ApiError,
-  request: Request,
-  response: Response
-) => {
-  console.log(`Error ${error.message}`);
-
-  const status = error.status || 400;
-  response.status(status).send(error.message);
+const formatError = (status: HttpStatusCode, message: string) => {
+  return {
+    error: {
+      status,
+      message,
+    },
+  };
 };
+
+const errorHandler = (
+  err: HttpError | Error,
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!err) {
+    next();
+  }
+
+  if (!isHttpError(err)) {
+    return res
+      .status(DEFAULT_STATUS_CODE)
+      .json(formatError(DEFAULT_STATUS_CODE, `Unknown error: ${err.message}`));
+  }
+
+  // This can be removed if we monkey-patch interface CreateHttpError with required arguments
+  const status = err.status || DEFAULT_STATUS_CODE;
+  const message = err.message || DEFAULT_MESSAGE;
+
+  return res.status(status).json(formatError(status, message));
+};
+
+export default errorHandler;

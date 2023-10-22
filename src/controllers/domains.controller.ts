@@ -1,4 +1,5 @@
-import { Router } from 'express';
+import { NextFunction, Router } from 'express';
+import createHttpError from 'http-errors';
 
 import { getDomains, isDomainAvailable } from '../services';
 import type {
@@ -7,36 +8,50 @@ import type {
   GetDomainsRequest,
   GetDomainsResponse,
 } from './types';
+import AiError from '../services/ai/AiError';
 
 const domainRouter = Router();
 
-// api/v1/domains?desc="{App description}"
+// /v1/domains?desc="{App description}"
 domainRouter.get(
   '/domains',
-  async (req: GetDomainsRequest, res: GetDomainsResponse) => {
+  async (
+    req: GetDomainsRequest,
+    res: GetDomainsResponse,
+    next: NextFunction
+  ) => {
     if (!req.query.desc) {
-      return res.status(400).json({ error: 'Query param `desc` is required' });
+      return next(createHttpError(400, 'Query param `desc` is required'));
     }
 
-    const domains = await getDomains({
-      desc: req.query.desc,
-      tlds: req.query.tlds,
-    });
+    let domains;
+    try {
+      domains = await getDomains({
+        desc: req.query.desc,
+        tlds: req.query.tlds?.split(','),
+      });
+    } catch (err) {
+      if (err instanceof AiError) {
+        return next(createHttpError(400, err.message));
+      }
+    }
 
     res.json({ domains });
   }
 );
 
-// api/v1/domain_status?domain="{domain}"
+// /v1/domain_status?domain="{domain}"
 domainRouter.get(
   '/domain_status',
-  async (req: GetDomainStatusRequest, res: GetDomainStatusResponse) => {
+  async (
+    req: GetDomainStatusRequest,
+    res: GetDomainStatusResponse,
+    next,
+  ) => {
     const domain = req.query.domain;
 
     if (!domain) {
-      return res
-        .status(400)
-        .send({ error: 'Query param `domain` is required' });
+      return next(createHttpError(400, 'Query param `domain` is required'));
     }
 
     const isAvailable = await isDomainAvailable(domain);
