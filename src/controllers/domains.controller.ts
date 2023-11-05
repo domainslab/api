@@ -1,7 +1,7 @@
 import { NextFunction, Router } from 'express';
 import createHttpError from 'http-errors';
 
-import { getDomains, isDomainAvailable } from '../services';
+import { getDomains, isDomainAvailable, } from '../services/';
 import type {
   GetDomainStatusRequest,
   GetDomainStatusResponse,
@@ -9,6 +9,7 @@ import type {
   GetDomainsResponse,
 } from './types';
 import AiError from '../services/ai/AiError';
+import { isDescValid } from '../services/ai';
 
 const domainRouter = Router();
 
@@ -23,6 +24,15 @@ domainRouter.get(
     if (!req.query.desc) {
       return next(createHttpError(400, 'Query param `desc` is required'));
     }
+
+    const descValid = await isDescValid(req.query.desc);
+    if (!descValid) {
+      return next(createHttpError(400, 'desc is not logic'));
+    }
+
+
+
+
 
     let domains;
     try {
@@ -53,6 +63,8 @@ domainRouter.get(
     if (!domain) {
       return next(createHttpError(400, 'Query param `domain` is required'));
     }
+
+
 
     const isAvailable = await isDomainAvailable(domain);
 
