@@ -19,6 +19,29 @@ const chat = async (message: string): Promise<string | undefined> => {
   return res.data.choices[0].message?.content;
 };
 
+
+
+
+
+
+export const IsRequestLogic2 = async (desc: string, prompt = 'log'): Promise<boolean> => {
+  const message = PROMPTS[prompt]
+    .replace('{desc}', desc)
+
+  const response = await chat(message);
+
+  if (response?.includes('True')) {
+    return true;
+
+  }
+  else {
+    return false;
+
+  }
+};
+
+
+
 export const getDomains = async ({
   desc,
   prompt = 'default',

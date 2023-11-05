@@ -9,6 +9,7 @@ import type {
   GetDomainsResponse,
 } from './types';
 import AiError from '../services/ai/AiError';
+import { IsRequestLogic2 } from '../services/ai';
 
 const domainRouter = Router();
 
@@ -23,6 +24,15 @@ domainRouter.get(
     if (!req.query.desc) {
       return next(createHttpError(400, 'Query param `desc` is required'));
     }
+    let checklogic;
+    checklogic = await IsRequestLogic2(req.query.desc);
+    if (checklogic == false) {
+      return next(createHttpError(400, 'desc is not logic'));
+    }
+
+
+
+
 
     let domains;
     try {
@@ -53,6 +63,8 @@ domainRouter.get(
     if (!domain) {
       return next(createHttpError(400, 'Query param `domain` is required'));
     }
+
+
 
     const isAvailable = await isDomainAvailable(domain);
 
