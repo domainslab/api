@@ -30,14 +30,7 @@ export const isDescValid = async (desc: string, prompt = 'desc_validation'): Pro
 
   const response = await chat(message);
 
-  if (response?.includes('True')) {
-    return true;
-
-  }
-  else {
-    return false;
-
-  }
+  return response?.includes('True') ?? false
 };
 
 
