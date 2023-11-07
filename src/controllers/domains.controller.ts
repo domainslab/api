@@ -25,8 +25,8 @@ domainRouter.get(
       return next(createHttpError(400, 'Query param `desc` is required'));
     }
 
-    const checklogic = await isDescValid(req.query.desc);
-    if (!checklogic) {
+    const descValid = await isDescValid(req.query.desc);
+    if (!descValid) {
       return next(createHttpError(400, 'desc is not logic'));
     }
 
