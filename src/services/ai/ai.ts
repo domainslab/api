@@ -24,7 +24,7 @@ const chat = async (message: string): Promise<string | undefined> => {
 
 
 
-export const IsRequestLogic2 = async (desc: string, prompt = 'log'): Promise<boolean> => {
+export const isDescValid = async (desc: string, prompt = 'desc_validation'): Promise<boolean> => {
   const message = PROMPTS[prompt]
     .replace('{desc}', desc)
 
@@ -39,6 +39,8 @@ export const IsRequestLogic2 = async (desc: string, prompt = 'log'): Promise<boo
 
   }
 };
+
+
 
 
 
