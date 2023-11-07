@@ -19,23 +19,16 @@ const chat = async (message: string): Promise<string | undefined> => {
   return res.data.choices[0].message?.content;
 };
 
-
-
-
-
-
-export const isDescValid = async (desc: string, prompt = 'desc_validation'): Promise<boolean> => {
-  const message = PROMPTS[prompt]
-    .replace('{desc}', desc)
+export const isDescValid = async (
+  desc: string,
+  prompt = 'desc_validation'
+): Promise<boolean> => {
+  const message = PROMPTS[prompt].replace('{desc}', desc);
 
   const response = await chat(message);
 
-  return response?.includes('True') ?? false
+  return response?.includes('True') ?? false;
 };
-
-
-
-
 
 export const getDomains = async ({
   desc,
