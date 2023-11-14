@@ -27,6 +27,6 @@ export const deletePostById = async (id: number) => {
     .eq('id', id);
   return error;
 };
-export const updatePosts = async ()=>{
+//export const updatePosts = async ()=>{
 
-};
+//};
